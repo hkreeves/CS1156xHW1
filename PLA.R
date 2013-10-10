@@ -30,7 +30,7 @@ getClass <- function(X, line){
 }
 
 # plot data points X, labels Y, and boundary line w
-plotPLA <- function(X, Y, w){
+plotSim <- function(X, Y, w){
 	# get the line data of g
 	wline <- getLineData(w)
 	plot(X[,1], X[,2], ylim=c(-1,1), xlim=c(-1,1), col=factor(Y))
@@ -38,7 +38,7 @@ plotPLA <- function(X, Y, w){
 }
 
 # evaluate the error rate given the target line f and PLA line g
-evalPLA <- function(g, f, plot=FALSE){
+eval <- function(g, f, plot=FALSE){
 	# gen a thousand points
 	size <- 1000
 	X <- matrix(runif(2*size, -1, 1), size, 2)
@@ -46,7 +46,7 @@ evalPLA <- function(g, f, plot=FALSE){
 	Y <- getClass(X, f)
 	Yp <- getClass(X, g)
 
-	if(plot) plotPLA(X, Y, g)
+	if(plot) plotSim(X, Y, g)
 	sum(Y!=Yp)/size	
 }
 
@@ -88,7 +88,7 @@ testPLA <- function(N=10, reptimes=100){
 		sampleY <- getClass(sampleX, f)
 
 		res <- pla(sampleX, sampleY)
-		err <- evalPLA(res[[1]], f)
+		err <- eval(res[[1]], f)
 		errSet <- c(errSet, err)
 		countSet <- c(countSet, res[[2]])
 	}
