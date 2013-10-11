@@ -26,7 +26,7 @@ getLineData <- function(w){
 getClass <- function(X, line){
 	# convert to a 1*2 matrix when X is a vector (one point only)
 	if(is.vector(X)) X <- matrix(X, nrow=1)	
-	sign(cbind(rep(1, dim(X)[1]), X) %*% line)
+	sign(cbind(1, X) %*% line)
 }
 
 # plot data points X, labels Y, and boundary line w
@@ -38,9 +38,8 @@ plotSim <- function(X, Y, w){
 }
 
 # evaluate the error rate given the target line f and PLA line g
-eval <- function(g, f, plot=FALSE){
+eval <- function(g, f, plot=FALSE, size=1000){
 	# gen a thousand points
-	size <- 1000
 	X <- matrix(runif(2*size, -1, 1), size, 2)
 	#print(head(X))
 	Y <- getClass(X, f)
@@ -50,9 +49,10 @@ eval <- function(g, f, plot=FALSE){
 	sum(Y!=Yp)/size	
 }
 
-pla <- function(trainX, trainY){
+# define perceptron learning algorith, with a initial g parameter
+pla <- function(trainX, trainY, g=c(0,0,0)){
 	# initialize line vector
-	g <- c(0.0, 0.0, 0.0)
+	# g <- c(0.0, 0.0, 0.0)
 	# g <- getLine()
 	# g <- c(1.0, 1.0, 0.0)
 	tempY <- getClass(trainX, g)
@@ -79,10 +79,10 @@ pla <- function(trainX, trainY){
 	list(g=g, counter=counter)
 }
 
-testPLA <- function(N=10, reptimes=100){
+iterPLA <- function(N=10, iter){
 	errSet = vector()
 	countSet = vector()
-	for(i in 1:reptimes){
+	for(i in 1:iter){
 		sampleX <- matrix(runif(2*N, -1, 1), N, 2)
 		f <- getLine()
 		sampleY <- getClass(sampleX, f)
