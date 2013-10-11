@@ -33,8 +33,8 @@ getClass <- function(X, line){
 plotSim <- function(X, Y, w){
 	# get the line data of g
 	wline <- getLineData(w)
-	plot(X[,1], X[,2], ylim=c(-1,1), xlim=c(-1,1), col=factor(Y))
-	lines(wline[,1], wline[,2], type='l')
+	plot(X[,1], X[,2], ylim=c(-1,1), xlim=c(-1,1), pch=20, col=factor(Y))
+	lines(wline[,1], wline[,2], type='l', lty='dotted', col='blue')
 }
 
 # evaluate the error rate given the target line f and PLA line g
